@@ -8,6 +8,7 @@ let lastnextprevious#table = {
 \ 'foldborder':     {'b': '[z', 'f': ']z'},
 \ 'foldnext':       {'b': 'zk', 'f': 'zj'},
 \ 'changelist':     {'b': 'g;', 'f': 'g,'},
+\ 'undolist':       {'b': 'g-', 'f': 'g+'},
 \}
 
 if !exists('g:lastnextprevious#default')
