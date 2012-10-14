@@ -10,7 +10,9 @@ let lastnextprevious#table = {
 \ 'changelist':     {'b': 'g;', 'f': 'g,'},
 \}
 
-let g:lastnextprevious#default = 'section-start'
+if !exists('g:lastnextprevious#default')
+	let g:lastnextprevious#default = 'section-start'
+endif
 
 function! lastnextprevious#forward(...)
 	call lastnextprevious#set_last(a:000)
