@@ -1,24 +1,31 @@
-let lastnextprevious#mappings = {
-\ 'change'     :  [']c', '[c'],
-\ 'function'   :  ['[[', ']]'],
-\ 'block'      :  ['[{', ']}'],
-\ 'foldborder' :  ['[z', ']z'],
-\ 'foldnext'   :  ['zj', 'zk'],
-\ 'changelist' :  ['g;', 'g,'],
-\ 'quickfix'   :  [']q', '[q'],
+let lastnextprevious#table = {
+\ 'section-start':  {'b': '[[', 'f': ']]'},
+\ 'section-end':    {'b': '[]', 'f': ']['},
+\ 'brace-block':    {'b': '[{', 'f': ']}'},
+\ 'bracket-block':  {'b': '[(', 'f': '])'},
+\ 'method':         {'b': '[m', 'f': ']m'},
+\ 'change':         {'b': '[c', 'f': ']c'},
+\ 'foldborder':     {'b': '[z', 'f': ']z'},
+\ 'foldnext':       {'b': 'zk', 'f': 'zj'},
+\ 'changelist':     {'b': 'g;', 'f': 'g,'},
 \}
 
+let g:lastnextprevious#default = 'section-start'
+
 function! lastnextprevious#forward(...)
-	if a:0 > 0
-		let g:lastnextprevious#last = a:1
-	endif
-	execute "normal! " . g:lastnextprevious#mappings[g:lastnextprevious#last][0]
+	call lastnextprevious#set_last(a:000)
+	execute "normal! " . g:lastnextprevious#table[g:lastnextprevious#last]['f']
 endfunction
 
 function! lastnextprevious#backward(...)
-	if a:0 > 0
-		let g:lastnextprevious#last = a:1
-	endif
-	execute "normal! " . g:lastnextprevious#mappings[g:lastnextprevious#last][1]
+	call lastnextprevious#set_last(a:000)
+	execute "normal! " . g:lastnextprevious#table[g:lastnextprevious#last]['b']
 endfunction
 
+function! lastnextprevious#set_last(...)
+	if len(a:1) > 0
+		let g:lastnextprevious#last = a:1[0]
+	elseif !exists('g:lastnextprevious#last')
+		let g:lastnextprevious#last = g:lastnextprevious#default
+	endif
+endfunction
