@@ -1,0 +1,180 @@
+*lastnextprevious.txt*		Move forward and backward as the last movement
+
+Version 0.1.0
+Script ID: ????
+Copyright © 2012 Alejandro Exojo Piqueras <http://disperso.net/>
+License: MIT license  {{{
+	Permission is hereby granted, free of charge, to any person obtaining
+	a copy of this software and associated documentation files (the
+	"Software"), to deal in the Software without restriction, including
+	without limitation the rights to use, copy, modify, merge, publish,
+	distribute, sublicense, and/or sell copies of the Software, and to
+	permit persons to whom the Software is furnished to do so, subject to
+	the following conditions:
+
+	The above copyright notice and this permission notice shall be included
+	in all copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+	IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+	CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+	TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*lastnextprevious-contents*
+
+Introduction				|lastnextprevious-introduction|
+	Installation			|lastnextprevious-installation|
+	Configuration			|lastnextprevious-configuration|
+Movement table				|lastnextprevious-table|
+Customization				|lastnextprevious-customization|
+Bugs and limitations			|lastnextprevious-bugs|
+Changelog				|lastnextprevious-changelog|
+
+
+==============================================================================
+INTRODUCTION					*lastnextprevious-introduction*
+
+*lastnextprevious* is a Vim plugin that saves the user of typing repeatedly
+some movement (or action) commands that are short, but hard to press
+repeatedly (specially in some keyboard layouts).
+
+With this plugin, when the user performs one of the configured movements by
+pressing the appropriate key strokes, the movement is performed as usual, but
+the type of movement is also saved ("last") for later. So if it has to be
+repeated ("next"), or it has to be performed in the other direction
+("previous"), the user might save some inconvenient key pressing using the
+configured shortcut.
+
+For example, moving one tab page backwards is not difficult: just press |gT|.
+However, if you want to review all tab pages one by one, your fingers will
+have to repeat gTgTgTgT... Likewise, imagine pressing repeatedly |g;| for
+revisiting the places where you did changes to a file, possibly reversing the
+sense of the movement: g;g;g;g,g;...
+
+The solution offered is to press the keys for the desired movement first, then
+act as wanted on that place, and later, when needed, press a simpler key
+mapped to this plugin.
+
+------------------------------------------------------------------------------
+INSTALLATION					*lastnextprevious-installation*
+
+The usual for any other Vim plugin: copy the files where Vim will look for
+them with the same directory layout that came with the plugin. If you use
+other plugins, color schemes, etc. that are installed by you, you probably
+know where that is. In UNIX-like systems (Linux, Mac OS X), is some place like
+$HOME/.vim.
+
+If you don't have installed any plugins yet, I strongly recommend to first
+install and configure a plugin manager (a plugin to help you with other
+plugins). My recommendation is that you start with Pathogen because is very
+simple. Find it at:
+	https://github.com/tpope/vim-pathogen
+
+------------------------------------------------------------------------------
+CONFIGURATION					*lastnextprevious-configuration*
+
+Think a couple of keys that you don't use much or nothing at all in normal
+mode. Good candidates are |+| and |-| or <C-p> and <C-n>. Now map them to the
+plugin actions, like this: >
+	nmap <silent> + <Plug>lastnextprevious_forward
+	nmap <silent> - <Plug>lastnextprevious_backward
+<
+
+Now you can repeat the last movement/action from the |lastnextprevious-table|
+in one direction with |+| and in the other with |-| (use other keys if you
+prefer).
+
+==============================================================================
+MOVEMENT TABLE					*lastnextprevious-table*
+
+By default, the plugin provides the following table of mappings:
+
+	NAME			BACK	FORWARD
+	----------------------------------------
+	section-start		[[	]]
+	section-end		[]	][
+	brace-block		[{	]}
+	bracket-block		[(	])
+	method			[m	]m
+	change			[c	]c
+	foldborder		[z	]z
+	foldnext		zk	zj
+	changelist		g;	g,
+	undolist		g-	g+
+
+
+==============================================================================
+CUSTOMIZATION					*lastnextprevious-customization*
+
+By default, if you start Vim and immediately press the key that triggers
+<Plug>lastnextprevious_forward or <Plug>lastnextprevious_backward when no
+movement has been done first, "section-start" is assumed. Change this doing a
+movement first or adding something like this to your |vimrc|: >
+	let g:lastnextprevious#default = 'changelist'
+<
+
+If you want to extend the table of available actions to provide your own, is
+very easy to do so. You just have to add values to the table, which is in
+a Vim |Dictionary| variable: >
+	call extend(g:lastnextprevious#table,
+	\ { 'tabcycle': {'b': 'gT', 'f': 'gt'} }
+	\)
+<
+
+On the other hand, if you want to do the opposite, and remove some key
+combinations so the plugin doesn't remap them, you will have to remove the
+keys from the variable. Again, add something like the following to your
+|vimrc| file: >
+call remove(g:lastnextprevious#table, 'changelist')
+<
+
+==============================================================================
+BUGS						*lastnextprevious-bugs*
+
+At the moment, there is no known issue, but is very likely that there will be,
+so your feedback is welcome.
+
+Feel free to contact the author through Gitorious or GitHub:
+	https://gitorious.org/vim-for-qt-kde/vim-lastnextprevious
+	https://github.com/suy/vim-lastnextprevious
+
+==============================================================================
+CREDITS						*lastnextprevious-credits*
+
+This plugin is largely inspired by other plugins that provide similar
+behaviour/experience. Those are vim-space by Henrik Öhman and vim-submode by
+Kana Natsuno:
+	https://github.com/spiiph/vim-space
+	http://github.com/kana/vim-submode
+
+If you find that this plugin doesn't suit your needs, consider giving a look
+at those other two. More specifically, vim-submode is much more powerful at
+providing more possibilities when you are performing an action, but if you
+want to do something not defined in that submode, then you exit the submode
+and have to enter it again. Is a great plugin that can have many uses, and can
+be used in parallel with this.
+
+And vim-space is more or less suited to do the same as this plugin, but it has
+quite a different approach that forces you to use <Space> as the key to go
+forward (since it can't be configured), and provides other functionality to
+parse every Ex command in case you entered a command like |:cnext| to go
+forward in the quickfix list. I considered improving vim-space, but the code
+was too large and messed to be useful to me, so I started from scratch, and at
+the moment of this writing I accomplished what I expected from vim-space with
+only 10% of the code. The functionality of parsing the command line input to
+do something extra should be delegated to some specific plugin to do just that
+(do only one thing, and do it properly), like Kana's vim-altercmd.
+
+
+==============================================================================
+CHANGELOG					*lastnextprevious-changelog*
+
+0.1.0	2012-10-14
+	- First public release.
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
