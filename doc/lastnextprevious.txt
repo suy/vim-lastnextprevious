@@ -112,9 +112,10 @@ CUSTOMIZATION					*lastnextprevious-customization*
 
 By default, if you start Vim and immediately press the key that triggers
 <Plug>lastnextprevious_forward or <Plug>lastnextprevious_backward when no
-movement has been done first, "section-start" is assumed. Change this doing a
-movement first or adding something like this to your |vimrc|: >
-	let g:lastnextprevious#default = 'changelist'
+movement has been done first, "section-start" is used as initial value.
+Remember that this will change once you start doing movements, but if you want
+to start with some predefined value, add something like this to your |vimrc|: >
+	let g:lastnextprevious#last = 'changelist'
 <
 
 If you want to extend the table of available actions to provide your own, is

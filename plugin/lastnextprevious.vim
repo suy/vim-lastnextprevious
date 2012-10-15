@@ -2,6 +2,10 @@ if exists('g:loaded_lastnextprevious')
   finish
 endif
 
+if !exists('g:lastnextprevious#last')
+	let g:lastnextprevious#last = 'section-start'
+endif
+
 for key in keys(g:lastnextprevious#table)
 	execute "nmap <silent>"
 		\ . g:lastnextprevious#table[key].f

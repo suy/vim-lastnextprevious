@@ -11,10 +11,6 @@ let lastnextprevious#table = {
 \ 'undolist':       {'b': 'g-', 'f': 'g+'},
 \}
 
-if !exists('g:lastnextprevious#default')
-	let g:lastnextprevious#default = 'section-start'
-endif
-
 function! lastnextprevious#forward(...)
 	call lastnextprevious#set_last(a:000)
 	execute "normal! " . g:lastnextprevious#table[g:lastnextprevious#last]['f']
@@ -28,7 +24,5 @@ endfunction
 function! lastnextprevious#set_last(...)
 	if len(a:1) > 0
 		let g:lastnextprevious#last = a:1[0]
-	elseif !exists('g:lastnextprevious#last')
-		let g:lastnextprevious#last = g:lastnextprevious#default
 	endif
 endfunction
