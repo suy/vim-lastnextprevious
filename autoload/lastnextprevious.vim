@@ -13,12 +13,12 @@ let lastnextprevious#table = {
 
 function! lastnextprevious#forward(...)
 	call lastnextprevious#set_last(a:000)
-	execute "normal! " . g:lastnextprevious#table[g:lastnextprevious#last]['f']
+	execute "normal! " . v:count . g:lastnextprevious#table[g:lastnextprevious#last]['f']
 endfunction
 
 function! lastnextprevious#backward(...)
 	call lastnextprevious#set_last(a:000)
-	execute "normal! " . g:lastnextprevious#table[g:lastnextprevious#last]['b']
+	execute "normal! " . v:count . g:lastnextprevious#table[g:lastnextprevious#last]['b']
 endfunction
 
 function! lastnextprevious#set_last(...)
