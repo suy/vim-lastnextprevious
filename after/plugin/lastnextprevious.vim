@@ -7,11 +7,11 @@ if !exists('g:lastnextprevious#last')
 endif
 
 for key in keys(g:lastnextprevious#table)
-	let mapbackward = maparg(g:lastnextprevious#table[key].b, 'n', 0, 1)
-	let mapforward  = maparg(g:lastnextprevious#table[key].f, 'n', 0, 1)
+	let mapbackward = maparg(g:lastnextprevious#table[key].b, 'n')
+	let mapforward  = maparg(g:lastnextprevious#table[key].f, 'n')
 	if !empty(mapbackward) || !empty(mapforward)
-		let g:lastnextprevious#table[key].bmap = mapbackward.rhs
-		let g:lastnextprevious#table[key].fmap = mapforward.rhs
+		let g:lastnextprevious#table[key].bmap = mapbackward
+		let g:lastnextprevious#table[key].fmap = mapforward
 	endif
 
 	execute "nmap <silent>"
