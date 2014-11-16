@@ -6,22 +6,22 @@ if !exists('g:lastnextprevious#last')
 	let g:lastnextprevious#last = 'section-start'
 endif
 
-for key in keys(g:lastnextprevious#table)
-	let mapbackward = maparg(g:lastnextprevious#table[key].b, 'n')
-	let mapforward  = maparg(g:lastnextprevious#table[key].f, 'n')
-	if !empty(mapbackward) || !empty(mapforward)
-		let g:lastnextprevious#table[key].bmap = mapbackward
-		let g:lastnextprevious#table[key].fmap = mapforward
+for s:key in keys(g:lastnextprevious#table)
+	let s:mapbackward = maparg(g:lastnextprevious#table[s:key].b, 'n')
+	let s:mapforward  = maparg(g:lastnextprevious#table[s:key].f, 'n')
+	if !empty(s:mapbackward) || !empty(s:mapforward)
+		let g:lastnextprevious#table[s:key].bmap = s:mapbackward
+		let g:lastnextprevious#table[s:key].fmap = s:mapforward
 	endif
 
 	execute "nmap <silent>"
-		\ . g:lastnextprevious#table[key].f
+		\ . g:lastnextprevious#table[s:key].f
 		\ . " :<C-u>call lastnextprevious#forward"
-		\ . "('" . key . "')<Return>"
+		\ . "('" . s:key . "')<Return>"
 	execute "nmap <silent>"
-		\ . g:lastnextprevious#table[key].b
+		\ . g:lastnextprevious#table[s:key].b
 		\ . " :<C-u>call lastnextprevious#backward"
-		\ . "('" . key . "')<Return>"
+		\ . "('" . s:key . "')<Return>"
 endfor
 
 
